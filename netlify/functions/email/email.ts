@@ -22,8 +22,15 @@ export const handler: Handler = async (event, context) => {
     from: 'menerke@gmail.com',
     to: 'menerke@gmail.com',
     subject: body.subject,
-    text: body.message,
     attachments: body.imageName ? [{ filename: body.imageName, content: body.image, encoding: 'base64' }] : [],
+    html: `<h2>Név:</h2>
+<span>${body.name}</span>
+<h2>Email cím:</h2>
+<span>${body.email}</span>
+<h2>Telefonszám:</h2>
+<span>${body.phone}</span>
+<h2>Üzenet</h2>
+${body.message.replaceAll('\n', '<br>')}`,
   }
 
   try {
