@@ -1,5 +1,5 @@
 import { Handler } from '@netlify/functions'
-import nodemailer, { SendMailOptions} from 'nodemailer';
+import nodemailer, { SendMailOptions } from 'nodemailer';
 
 export const handler: Handler = async (event, context) => {
   if (event.httpMethod !== 'POST') {
@@ -40,6 +40,10 @@ ${body.message.replaceAll('\n', '<br>')}`,
       body: JSON.stringify({
         success: true,
       }),
+      headers: {
+        'Access-Control-Allow-Origin': 'http://localhost:3000,https://beridoor.hu,http://beridoor.hu',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      }
     }
   } catch (e) {
     console.log(e)
