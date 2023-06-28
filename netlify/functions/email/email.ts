@@ -6,7 +6,7 @@ export const handler: Handler = async (event, context) => {
     return {
       statusCode: 200,
       headers: {
-        'Access-Control-Allow-Origin': 'http://localhost:3000,https://beridoor.hu,http://beridoor.hu',
+        'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type',
       }
     }
@@ -42,7 +42,7 @@ ${body.message.replaceAll('\n', '<br>')}`,
         success: true,
       }),
       headers: {
-        'Access-Control-Allow-Origin': 'http://localhost:3000,https://beridoor.hu,http://beridoor.hu',
+        'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type',
       }
     }
