@@ -4,10 +4,11 @@ import nodemailer, { SendMailOptions } from 'nodemailer';
 export const handler: Handler = async (event, context) => {
   if (event.httpMethod !== 'POST') {
     return {
-      statusCode: 500,
-      body: JSON.stringify({
-        success: false,
-      }),
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': 'http://localhost:3000,https://beridoor.hu,http://beridoor.hu',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      }
     }
   }
   const body = JSON.parse(event.body || '')
