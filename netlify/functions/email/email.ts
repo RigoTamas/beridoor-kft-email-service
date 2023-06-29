@@ -1,6 +1,6 @@
 import { Handler } from '@netlify/functions'
 import nodemailer, { SendMailOptions } from 'nodemailer';
-import {readFile} from 'fs/promises'
+import { readFile } from 'fs/promises'
 
 export const handler: Handler = async (event, context) => {
   if (event.httpMethod !== 'POST') {
@@ -42,12 +42,12 @@ ${body.message.replaceAll('\n', '<br>')}`,
     console.log(`email succesfully sent, name: ${body.name}, email: ${body.email}, phone: ${body.phone}`)
     if (body.email) {
 
-      const htmlRseponse = (await readFile('./response-email-template.html')).toString()
+      const htmlResponse = (await readFile(require.resolve('/assets/response-email-template.html'))).toString()
       const responseMailOptions: SendMailOptions = {
         from: 'menerke@gmail.com',
         to: body.email,
         subject: 'Megkeresés befogadva',
-        html: htmlRseponse,
+        html: htmlResponse,
       }
       try {
         await transporter.sendMail(responseMailOptions);
