@@ -11,20 +11,22 @@ export const handler: Handler = async (event, context) => {
       }
     }
   }
-  const body = JSON.parse(event.body || '')
-  const transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-      user: 'menerke',
-      pass: process.env.GMAIL_APP_PASSWORD
-    }
-  });
-  const mailOptions: SendMailOptions = {
-    from: 'menerke@gmail.com',
-    to: 'menerke@gmail.com',
-    subject: body.subject,
-    attachments: body.imageName ? [{ filename: body.imageName, content: body.image, encoding: 'base64' }] : [],
-    html: `<h2>Név:</h2>
+  try {
+    const body = JSON.parse(event.body || '{}')
+    JSON.parse('')
+    const transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: 'menerke',
+        pass: process.env.GMAIL_APP_PASSWORD
+      }
+    });
+    const mailOptions: SendMailOptions = {
+      from: 'menerke@gmail.com',
+      to: 'menerke@gmail.com',
+      subject: body.subject,
+      attachments: body.imageName ? [{ filename: body.imageName, content: body.image, encoding: 'base64' }] : [],
+      html: `<h2>Név:</h2>
 <span>${body.name}</span>
 <h2>Email cím:</h2>
 <span>${body.email}</span>
@@ -32,9 +34,7 @@ export const handler: Handler = async (event, context) => {
 <span>${body.phone}</span>
 <h2>Üzenet</h2>
 ${body.message.replaceAll('\n', '<br>')}`,
-  }
-
-  try {
+    }
     await transporter.sendMail(mailOptions);
     return {
       statusCode: 200,
