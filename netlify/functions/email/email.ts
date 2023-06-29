@@ -36,6 +36,7 @@ export const handler: Handler = async (event, context) => {
 ${body.message.replaceAll('\n', '<br>')}`,
     }
     await transporter.sendMail(mailOptions);
+    console.log(`email succesfully sent, name: ${body.name}, email: ${body.email}, phone: ${body.phone}`)
     return {
       statusCode: 200,
       body: JSON.stringify({
@@ -52,6 +53,7 @@ ${body.message.replaceAll('\n', '<br>')}`,
       statusCode: 500,
       body: JSON.stringify({
         success: false,
+        error: e,
       }),
       headers: {
         'Access-Control-Allow-Origin': '*',
