@@ -53,6 +53,10 @@ ${body.message.replaceAll('\n', '<br>')}`,
       body: JSON.stringify({
         success: false,
       }),
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      }
     }
 
   }
