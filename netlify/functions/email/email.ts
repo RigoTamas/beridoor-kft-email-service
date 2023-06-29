@@ -45,19 +45,17 @@ ${body.message.replaceAll('\n', '<br>')}`,
         from: 'menerke@gmail.com',
         to: body.email,
         subject: 'Megkeresés befogadva',
-        attachments: [
-          {
-            path: 'https://www.telikert-teraszbeepites.hu/wp-content/uploads/2015/12/brd_logo_400px.png',
-            filename: 'beridoor_logo.png'
-          }],
         html: `<h2>Kedves ${body.name}</h2>
-<img src="beridoor_logo.png">
+<img src="https://www.telikert-teraszbeepites.hu/wp-content/uploads/2015/12/brd_logo_400px.png">
 <p>Megkeresését rendszerünk befogadta, munkatársunk hamarosan felveszi önnel a kapcsolatot.</p>
 <p>Üdvözlettel, Beridoor kft.</p>`,
       }
-      await transporter.sendMail(responseMailOptions);
-        // .then(() => { console.log(`response email sent succesfully to ${body.email}`) })
-        // .catch((e) => { console.log(`error sending response email to ${body.email}. Reason: ${e}`) });
+      try {
+        await transporter.sendMail(responseMailOptions);
+        console.log(`response email sent succesfully to ${body.email}`);
+      } catch (e) {
+        console.log(`error sending response email to ${body.email}. Reason: ${e}`)
+      }
     }
     return {
       statusCode: 200,
