@@ -53,7 +53,7 @@ ${body.message.replaceAll('\n', '<br>')}`,
       statusCode: 500,
       body: JSON.stringify({
         success: false,
-        error: e,
+        error: `${e}`,
       }),
       headers: {
         'Access-Control-Allow-Origin': '*',
