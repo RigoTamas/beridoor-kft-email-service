@@ -40,22 +40,24 @@ ${body.message.replaceAll('\n', '<br>')}`,
     await transporter.sendMail(mailOptions);
     console.log(`email succesfully sent, name: ${body.name}, email: ${body.email}, phone: ${body.phone}`)
     if (body.email) {
+
       const responseMailOptions: SendMailOptions = {
         from: 'menerke@gmail.com',
         to: body.email,
         subject: 'Megkeresés befogadva',
-        // attachments: [
-        //   {
-        //     path: 'https://www.telikert-teraszbeepites.hu/wp-content/uploads/2015/12/brd_logo_400px.png',
-        //     filename: 'beridoor_logo.png'
-        //   }],
+        attachments: [
+          {
+            path: 'https://www.telikert-teraszbeepites.hu/wp-content/uploads/2015/12/brd_logo_400px.png',
+            filename: 'beridoor_logo.png'
+          }],
         html: `<h2>Kedves ${body.name}</h2>
+<img src="beridoor_logo.png">
 <p>Megkeresését rendszerünk befogadta, munkatársunk hamarosan felveszi önnel a kapcsolatot.</p>
 <p>Üdvözlettel, Beridoor kft.</p>`,
       }
-      transporter.sendMail(responseMailOptions)
-        .then(() => { console.log(`response email sent succesfully to ${body.email}`) })
-        .catch((e) => { console.log(`error sending response email to ${body.email}. Reason: ${e}`) });
+      await transporter.sendMail(responseMailOptions);
+        // .then(() => { console.log(`response email sent succesfully to ${body.email}`) })
+        // .catch((e) => { console.log(`error sending response email to ${body.email}. Reason: ${e}`) });
     }
     return {
       statusCode: 200,
