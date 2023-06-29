@@ -42,7 +42,7 @@ ${body.message.replaceAll('\n', '<br>')}`,
     console.log(`email succesfully sent, name: ${body.name}, email: ${body.email}, phone: ${body.phone}`)
     if (body.email) {
 
-      const htmlResponse = (await readFile(require.resolve('/assets/response-email-template.html'))).toString()
+      const htmlResponse = await readFile(require.resolve('./assets/response-email-template.html'), {encoding: 'utf-8'})
       const responseMailOptions: SendMailOptions = {
         from: 'menerke@gmail.com',
         to: body.email,
