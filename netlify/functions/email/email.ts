@@ -46,7 +46,9 @@ ${body.message.replaceAll('\n', '<br>')}`,
         to: body.email,
         subject: 'Megkeresés befogadva',
         html: `<h2>Kedves ${body.name}</h2>
-<img src="https://www.telikert-teraszbeepites.hu/wp-content/uploads/2015/12/brd_logo_400px.png">
+<a href="https://beridoor.hu">
+  <img align="middle" alt="Beridood logo" src="https://www.telikert-teraszbeepites.hu/wp-content/uploads/2015/12/brd_logo_400px.png">
+</a>
 <p>Megkeresését rendszerünk befogadta, munkatársunk hamarosan felveszi önnel a kapcsolatot.</p>
 <p>Üdvözlettel, Beridoor kft.</p>`,
       }
