@@ -218,7 +218,7 @@ const main = async () => {
     return { success: true };
   })
 
-  fastify.post('/send-email', async (request, reply) => {
+  fastify.post('/send-email', { bodyLimit: 30_000_000 }, async (request, reply) => {
     reply.type('application/json');
     const body = request.body as { images: { base64Image: any[], imageName: string }[], subject: string, name: string, email: string, phone: string, message: string }
     if (!body) {
