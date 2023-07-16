@@ -1,5 +1,6 @@
 import nodemailer, { SendMailOptions } from 'nodemailer';
 import Fastify from 'fastify'
+import cors from '@fastify/cors'
 
 const emailResponse = `<div id=":vp" class="a3s aiL msg-1983488461709975103">
   <div style="background-color: #e9ebed; margin: 0; width: 100%">
@@ -204,98 +205,95 @@ const emailResponse = `<div id=":vp" class="a3s aiL msg-1983488461709975103">
 </div>
 `
 
-const fastify = Fastify({
-  logger: true
-})
-
-fastify.get('/', async (request, reply) => {
-  reply.headers({
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
+const main = async () => {
+  
+  const fastify = Fastify({
+    logger: true
   })
-  reply.type('application/json');
-  reply.code(200);
-  return { success: true };
-})
+  await fastify.register(cors, {origin: '*'})
 
-fastify.post('/send-email', async (request, reply) => {
-  reply.headers({
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
+  fastify.get('/', async (request, reply) => {
+    reply.type('application/json');
+    reply.code(200);
+    return { success: true };
   })
-  reply.type('application/json');
-  const body = request.body as { images: { base64Image: any[], imageName: string }[], subject: string, name: string, email: string, phone: string, message: string }
-  if (!body) {
-    reply.code(400)
-    return {
-      success: false,
-      error: 'no body found in request',
-    }
-  }
-  try {
-    const transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-        user: 'menerke',
-        pass: process.env.GMAIL_APP_PASSWORD
+
+  fastify.post('/send-email', async (request, reply) => {
+    reply.type('application/json');
+    const body = request.body as { images: { base64Image: any[], imageName: string }[], subject: string, name: string, email: string, phone: string, message: string }
+    if (!body) {
+      reply.code(400)
+      return {
+        success: false,
+        error: 'no body found in request',
       }
-    });
-    const attachments: any[] = []
-    for (const image of body.images || []) {
-      attachments.push({ filename: image.imageName, content: image.base64Image, encoding: 'base64' })
     }
-    const mailOptions: SendMailOptions = {
-      from: 'menerke@gmail.com',
-      to: 'menerke@gmail.com',
-      subject: body.subject,
-      attachments,
-      html: `<h2>Név:</h2>
-<h3>${body.name}<h3>
-<h2>Email cím:</h2>
-<h3>${body.email}</h3>
-<h2>Telefonszám:</h2>
-<h3>${body.phone}</h3>
-<h2>Üzenet:</h2>
-<h3>${body.message.replaceAll('\n', '<br>')}<h3>`,
-    }
-    await transporter.sendMail(mailOptions);
-    console.log(`email succesfully sent, name: ${body.name}, email: ${body.email}, phone: ${body.phone}`)
-    if (body.email) {
-      const responseMailOptions: SendMailOptions = {
+    try {
+      const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+          user: 'menerke',
+          pass: process.env.GMAIL_APP_PASSWORD
+        }
+      });
+      const attachments: any[] = []
+      for (const image of body.images || []) {
+        attachments.push({ filename: image.imageName, content: image.base64Image, encoding: 'base64' })
+      }
+      const mailOptions: SendMailOptions = {
         from: 'menerke@gmail.com',
-        to: body.email,
-        subject: 'Megkeresés befogadva',
-        html: emailResponse,
+        to: 'menerke@gmail.com',
+        subject: body.subject,
+        attachments,
+        html: `<h2>Név:</h2>
+  <h3>${body.name}<h3>
+  <h2>Email cím:</h2>
+  <h3>${body.email}</h3>
+  <h2>Telefonszám:</h2>
+  <h3>${body.phone}</h3>
+  <h2>Üzenet:</h2>
+  <h3>${body.message.replaceAll('\n', '<br>')}<h3>`,
       }
-      try {
-        await transporter.sendMail(responseMailOptions);
-        console.log(`response email sent succesfully to ${body.email}`);
-      } catch (e) {
-        console.log(`error sending response email to ${body.email}. Reason: ${e}`)
+      await transporter.sendMail(mailOptions);
+      console.log(`email succesfully sent, name: ${body.name}, email: ${body.email}, phone: ${body.phone}`)
+      if (body.email) {
+        const responseMailOptions: SendMailOptions = {
+          from: 'menerke@gmail.com',
+          to: body.email,
+          subject: 'Megkeresés befogadva',
+          html: emailResponse,
+        }
+        try {
+          await transporter.sendMail(responseMailOptions);
+          console.log(`response email sent succesfully to ${body.email}`);
+        } catch (e) {
+          console.log(`error sending response email to ${body.email}. Reason: ${e}`)
+        }
       }
+      reply.statusCode = 200;
+      return {
+        success: true,
+      }
+    } catch (e) {
+      console.log(e)
+      reply.statusCode = 500;
+      return {
+        success: false,
+        error: `${e}`,
+      }
+
     }
-    reply.statusCode = 200;
-    return {
-      success: true,
+  })
+
+  const host = ("RENDER" in process.env) ? `0.0.0.0` : `localhost`;
+
+  fastify.listen({host: host, port: parseInt(process.env.PORT || '8090') }, function (err, address) {
+    console.log(`server listening on port ${address}`)
+    if (err) {
+      fastify.log.error(err)
+      process.exit(1)
     }
-  } catch (e) {
-    console.log(e)
-    reply.statusCode = 500;
-    return {
-      success: false,
-      error: `${e}`,
-    }
+  })
+}
 
-  }
-})
-
-
-const host = ("RENDER" in process.env) ? `0.0.0.0` : `localhost`;
-
-fastify.listen({host: host, port: parseInt(process.env.PORT || '8090') }, function (err, address) {
-  console.log(`server listening on port ${address}`)
-  if (err) {
-    fastify.log.error(err)
-    process.exit(1)
-  }
-})
+void main()
