@@ -226,11 +226,15 @@ export const handler: Handler = async (event, context) => {
         pass: process.env.GMAIL_APP_PASSWORD
       }
     });
+    const attachments: any[] = []
+    for (const image of body.images || []) {
+      attachments.push({ filename: image.imageName, content: image.base64Image, encoding: 'base64' })
+    }
     const mailOptions: SendMailOptions = {
       from: 'menerke@gmail.com',
       to: 'menerke@gmail.com',
       subject: body.subject,
-      attachments: body.imageName ? [{ filename: body.imageName, content: body.image, encoding: 'base64' }] : [],
+      attachments,
       html: `<h2>Név:</h2>
 <h3>${body.name}<h3>
 <h2>Email cím:</h2>
