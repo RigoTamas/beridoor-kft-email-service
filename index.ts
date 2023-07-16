@@ -208,6 +208,16 @@ const fastify = Fastify({
   logger: true
 })
 
+fastify.get('/', async (request, reply) => {
+  reply.headers({
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  })
+  reply.type('application/json');
+  reply.code(200);
+  return { success: true };
+})
+
 fastify.post('/send-email', async (request, reply) => {
   reply.headers({
     'Access-Control-Allow-Origin': '*',
