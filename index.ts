@@ -278,7 +278,7 @@ fastify.post('/send-email', async (request, reply) => {
   }
 })
 
-fastify.listen({ port: 8090 }, (err, address) => {
+fastify.listen({ port: parseInt(process.env.PORT || '8090') }, (err, address) => {
   console.log(`server listening on port ${address}`)
   if (err) throw err
   // Server is now listening on ${address}
