@@ -285,9 +285,7 @@ const main = async () => {
     }
   })
 
-  const host = ("RENDER" in process.env) ? `0.0.0.0` : `localhost`;
-
-  fastify.listen({host: host, port: parseInt(process.env.PORT || '8090') }, function (err, address) {
+  fastify.listen({host: '0.0.0.0', port: 3000 }, function (err, address) {
     console.log(`server listening on port ${address}`)
     if (err) {
       fastify.log.error(err)
