@@ -237,7 +237,7 @@ export const handler: Handler = async (event, context) => {
 <h3>${body.email}</h3>
 <h2>Telefonszám:</h2>
 <h3>${body.phone}</h3>
-<h2>Üzenet</h2>
+<h2>Üzenet:</h2>
 <h3>${body.message.replaceAll('\n', '<br>')}<h3>`,
     }
     await transporter.sendMail(mailOptions);
