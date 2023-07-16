@@ -203,6 +203,7 @@ const emailResponse = `<div id=":vp" class="a3s aiL msg-1983488461709975103">
   </div>
 </div>
 `
+
 const fastify = Fastify({
   logger: true
 })
@@ -278,8 +279,13 @@ fastify.post('/send-email', async (request, reply) => {
   }
 })
 
-fastify.listen({ port: parseInt(process.env.PORT || '8090') }, (err, address) => {
+
+const host = ("RENDER" in process.env) ? `0.0.0.0` : `localhost`;
+
+fastify.listen({host: host, port: parseInt(process.env.PORT || '8090') }, function (err, address) {
   console.log(`server listening on port ${address}`)
-  if (err) throw err
-  // Server is now listening on ${address}
+  if (err) {
+    fastify.log.error(err)
+    process.exit(1)
+  }
 })
