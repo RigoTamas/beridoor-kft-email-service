@@ -232,13 +232,13 @@ export const handler: Handler = async (event, context) => {
       subject: body.subject,
       attachments: body.imageName ? [{ filename: body.imageName, content: body.image, encoding: 'base64' }] : [],
       html: `<h2>Név:</h2>
-<span>${body.name}</span>
+<h3>${body.name}<h3>
 <h2>Email cím:</h2>
-<span>${body.email}</span>
+<h3>${body.email}</h3>
 <h2>Telefonszám:</h2>
-<span>${body.phone}</span>
+<h3>${body.phone}</h3>
 <h2>Üzenet</h2>
-${body.message.replaceAll('\n', '<br>')}`,
+<h3>${body.message.replaceAll('\n', '<br>')}<h3>`,
     }
     await transporter.sendMail(mailOptions);
     console.log(`email succesfully sent, name: ${body.name}, email: ${body.email}, phone: ${body.phone}`)
