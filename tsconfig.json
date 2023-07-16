@@ -1,0 +1,31 @@
+{
+  "include": ["index.ts"],
+  "exclude": ["node_modules", "dist"],
+  "compileOnSave": true,
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "alwaysStrict": true,
+    "declaration": true,
+    "declarationDir": "./dist",
+    "downlevelIteration": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "lib": ["es2021"],
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "rootDir": ".",
+    "outDir": "./dist",
+    "pretty": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "target": "es2021",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "preserveConstEnums": true
+  }
+}
