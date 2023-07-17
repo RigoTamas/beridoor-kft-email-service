@@ -208,7 +208,8 @@ const emailResponse = `<div id=":vp" class="a3s aiL msg-1983488461709975103">
 const main = async () => {
   
   const fastify = Fastify({
-    logger: true
+    logger: true,
+    keepAliveTimeout: 120_000,
   })
   await fastify.register(cors, {origin: '*'})
 
