@@ -233,7 +233,7 @@ const main = async () => {
       const transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
-          user: 'menerke',
+          user: 'beridoorkft',
           pass: process.env.GMAIL_APP_PASSWORD
         }
       });
@@ -242,8 +242,8 @@ const main = async () => {
         attachments.push({ filename: image.imageName, content: image.base64Image, encoding: 'base64' })
       }
       const mailOptions: SendMailOptions = {
-        from: 'menerke@gmail.com',
-        to: 'menerke@gmail.com',
+        from: 'beridoorkft@gmail.com',
+        to: 'beridoorkft@gmail.com',
         subject: body.subject,
         attachments,
         html: `<h2>Név:</h2>
