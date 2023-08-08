@@ -115,7 +115,7 @@ const emailResponse = `<div id=":vp" class="a3s aiL msg-1983488461709975103">
                                     text-align: center;
                                   "
                                 >
-                                Üzenetét rendszerünk befogadta, kollégánk hamarosan felveszi önnel a kapcsolatot.
+                                Köszönjük, hogy felvette cégünkkel a kapcsolatot. Munkatársunk hamarosan felkeresi a megadott elérhetőségek egyikén.
                                 </p>
                                 <div>
                                   <table
@@ -206,12 +206,12 @@ const emailResponse = `<div id=":vp" class="a3s aiL msg-1983488461709975103">
 `
 
 const main = async () => {
-  
+
   const fastify = Fastify({
     logger: true,
     keepAliveTimeout: 120_000,
   })
-  await fastify.register(cors, {origin: '*'})
+  await fastify.register(cors, { origin: '*' })
 
   fastify.get('/', async (request, reply) => {
     reply.type('application/json');
@@ -221,7 +221,7 @@ const main = async () => {
 
   fastify.post('/send-email', { bodyLimit: 30_000_000 }, async (request, reply) => {
     reply.type('application/json');
-    const body = request.body as { images: { base64Image: any[], imageName: string }[], subject: string, name: string, email: string, phone: string, message: string }
+    const body = request.body as { images: { base64Image: any[], imageName: string }[], subject: string, name: string, email: string, phone: string, message: string; location: string }
     if (!body) {
       reply.code(400)
       return {
@@ -246,14 +246,13 @@ const main = async () => {
         to: 'beridoorkft@gmail.com',
         subject: body.subject,
         attachments,
-        html: `<h2>Név:</h2>
-  <h3>${body.name}<h3>
-  <h2>Email cím:</h2>
-  <h3>${body.email}</h3>
-  <h2>Telefonszám:</h2>
-  <h3>${body.phone}</h3>
-  <h2>Üzenet:</h2>
-  <h3>${body.message.replaceAll('\n', '<br>')}<h3>`,
+        text: `Feladó: ${body.name}
+E-mail cím: ${body.email}
+Telefon: ${body.phone}
+Kivitelezés helyszíne: ${body.location}
+
+Üzenet:
+${body.message}`,
       }
       await transporter.sendMail(mailOptions);
       console.log(`email succesfully sent, name: ${body.name}, email: ${body.email}, phone: ${body.phone}`)
@@ -286,7 +285,7 @@ const main = async () => {
     }
   })
 
-  fastify.listen({host: '0.0.0.0', port: 3000 }, function (err, address) {
+  fastify.listen({ host: '0.0.0.0', port: 3000 }, function (err, address) {
     console.log(`server listening on port ${address}`)
     if (err) {
       fastify.log.error(err)
