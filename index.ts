@@ -115,7 +115,7 @@ const emailResponse = `<div id=":vp" class="a3s aiL msg-1983488461709975103">
                                     text-align: center;
                                   "
                                 >
-                                Köszönjük, hogy felvette cégünkkel a kapcsolatot. Munkatársunk hamarosan felkeresi a megadott elérhetőségek egyikén.
+                                Munkatársunk hamarosan megkeresi a megadott elérhetőségek egyikén.
                                 </p>
                                 <div>
                                   <table
@@ -258,9 +258,9 @@ ${body.message}`,
       console.log(`email succesfully sent, name: ${body.name}, email: ${body.email}, phone: ${body.phone}`)
       if (body.email) {
         const responseMailOptions: SendMailOptions = {
-          from: 'menerke@gmail.com',
+          from: 'beridoorkft@gmail.com',
           to: body.email,
-          subject: 'Megkeresés befogadva',
+          subject: 'Üzenetét rendszerünk fogadta',
           html: emailResponse,
         }
         try {
