@@ -88,7 +88,7 @@ const emailResponse = `<div id=":vp" class="a3s aiL msg-1983488461709975103">
                                     font-weight: 600;
                                   "
                                 >
-                                  Köszönjük megkeresését
+                                  Köszönjük érdeklődését
                                 </h1>
                                 <p
                                   style="
@@ -155,7 +155,7 @@ const emailResponse = `<div id=":vp" class="a3s aiL msg-1983488461709975103">
                                                     "
                                                     href="https://beridoor.hu"
                                                     >
-                                                  <img src="https://www.telikert-teraszbeepites.hu/wp-content/uploads/2015/12/brd_logo_400px.png" width="300px"></img>
+                                                  <img src="https://beridoor.hu/logo-transparent.png" width="250px"></img>
                                                   </a >
                                                 </td>
                                               </tr>
